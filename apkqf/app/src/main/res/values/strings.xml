@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">apkqf</string>
+    <string name="button_run_extraction">Run extraction</string>
 </resources>
