@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">apkqf</string>
     <string name="button_run_extraction">Run extraction</string>
+    <string name="text_view_title">APK Quick Forensics (apkqf)</string>
+    <string name="checkbox_backup">SMS backup</string>
+    <string name="checkbox_getprop">Device properties</string>
+    <string name="checkbox_settings">Device settings</string>
+    <string name="checkbox_processes">Current processes on execution</string>
+    <string name="checkbox_services">Current services on execution</string>
+    <string name="checkbox_logcat">Logcat information</string>
+    <string name="checkbox_logs">Devices logs</string>
+    <string name="checkbox_dumpsys">DumpSys information</string>
+    <string name="checkbox_packages">Packages information</string>
 </resources>

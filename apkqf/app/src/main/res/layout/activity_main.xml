@@ -7,46 +7,199 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/text_view_title"
+        app:layout_constraintBottom_toTopOf="@id/checkBoxGetSMSBackup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGetSMSBackup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/checkbox_backup"
+        app:layout_constraintBottom_toTopOf="@id/checkBoxGetProp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        tools:ignore="VisualLintButtonSize" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGetProp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/checkbox_getprop"
+        app:layout_constraintBottom_toTopOf="@id/checkBoxGetSettings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxGetSMSBackup"
+        tools:ignore="VisualLintButtonSize" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGetSettings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/checkbox_settings"
+        app:layout_constraintBottom_toTopOf="@id/checkBoxGetProcesses"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxGetProp"
+        tools:ignore="VisualLintButtonSize" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGetProcesses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/checkbox_processes"
+        app:layout_constraintBottom_toTopOf="@id/checkBoxGetServices"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxGetSettings"
+        tools:ignore="VisualLintButtonSize" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGetServices"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/checkbox_services"
+        app:layout_constraintBottom_toTopOf="@id/checkBoxGetLogcat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxGetProcesses"
+        tools:ignore="VisualLintButtonSize" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGetLogcat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/checkbox_logcat"
+        app:layout_constraintBottom_toTopOf="@id/checkBoxGetLogs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxGetServices"
+        tools:ignore="VisualLintButtonSize" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGetLogs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/checkbox_logs"
+        app:layout_constraintBottom_toTopOf="@id/checkBoxGetDumpsys"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxGetLogcat"
+        tools:ignore="VisualLintButtonSize" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGetDumpsys"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/checkbox_dumpsys"
+        app:layout_constraintBottom_toTopOf="@id/checkBoxGetPackages"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxGetLogs"
+        tools:ignore="VisualLintButtonSize" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGetPackages"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="@string/checkbox_packages"
+        app:layout_constraintBottom_toTopOf="@id/textViewResults"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkBoxGetDumpsys"
+        tools:ignore="VisualLintButtonSize" />
+
+    <TextView
         android:id="@+id/textViewResults"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/textViewResults2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="This is the result view" />
-
-    <TextView
-        android:id="@+id/textViewResults2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRunExtraction"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonRunExtraction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewResults"
-        tools:text="This is the result view 2" />
+        app:layout_constraintTop_toBottomOf="@id/checkBoxGetPackages"
+        tools:text="Logs" />
 
     <Button
         android:id="@+id/buttonRunExtraction"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/button_run_extraction"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewResults"
         tools:ignore="VisualLintButtonSize" />
 
 </android.support.constraint.ConstraintLayout>

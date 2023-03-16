@@ -22,10 +22,6 @@ class MainActivity : AppCompatActivity() {
         val resultTextView: TextView = findViewById(R.id.textViewResults)
         resultTextView.text = execCMD(arrayOf("sh", "-c", "getprop"))
         resultTextView.movementMethod = ScrollingMovementMethod()
-
-        val resultTextView2: TextView = findViewById(R.id.textViewResults2)
-        resultTextView2.text = execCMD(arrayOf("sh", "-c", "service list"))
-        resultTextView2.movementMethod = ScrollingMovementMethod()
     }
 
     private fun execCMD (myCMD: Array<String>): String {
