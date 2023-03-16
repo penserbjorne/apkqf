@@ -3,11 +3,17 @@ package com.penserbjorne.apkqf
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import com.penserbjorne.apkqf.databinding.ActivityMainBinding
 import java.io.*
 
+private const val TAG = "apkqf"
+
 class MainActivity : AppCompatActivity() {
+    /*
+    // Changed for a viewBinding feature
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,11 +23,35 @@ class MainActivity : AppCompatActivity() {
             runExtractions()
         }
     }
+    */
+
+    lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Assign execution to button
+        binding.buttonRunExtraction.setOnClickListener { runExtractions() }
+    }
 
     private fun runExtractions() {
+        /*
         val resultTextView: TextView = findViewById(R.id.textViewResults)
         resultTextView.text = execCMD(arrayOf("sh", "-c", "getprop"))
         resultTextView.movementMethod = ScrollingMovementMethod()
+        */
+
+        Log.d(TAG, "SMS Backup")
+        Log.d(TAG, "GetProp")
+        Log.d(TAG, "Settings")
+        Log.d(TAG, "Processes")
+        Log.d(TAG, "Services")
+        Log.d(TAG, "Logcat")
+        Log.d(TAG, "Logs")
+        Log.d(TAG, "DumpSys")
+        Log.d(TAG, "Packages")
     }
 
     private fun execCMD (myCMD: Array<String>): String {
