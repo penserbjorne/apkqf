@@ -1,6 +1,11 @@
 package com.penserbjorne.apkqf
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import java.io.BufferedReader
 import java.io.File
@@ -8,6 +13,7 @@ import java.io.IOError
 import java.io.InputStreamReader
 
 private const val acquisitionTAG = "apkqf utils"
+private const val REQUEST_PERMISSIONS = 1
 
 class Utils(applicationContext: Context) {
 
@@ -17,6 +23,40 @@ class Utils(applicationContext: Context) {
     fun test() {
         val testMSG = "Hello from Utils test"
         Log.d(acquisitionTAG, testMSG)
+    }
+
+    fun checkPermissions(mainActivity: MainActivity): Boolean {
+        val permissions = arrayOf(
+            // Permissions for SMS Backup
+            Manifest.permission.READ_SMS
+            //Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        val permissionsToRequest = mutableListOf<String>()
+
+        // Check if permissions are granted
+        // If not then add to a list of permissions to request
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(
+                    myApplicationContext,
+                    permission
+            ) != PackageManager.PERMISSION_GRANTED) {
+                permissionsToRequest.add(permission)
+            }
+        }
+
+        // Requesting permissions
+        if (permissionsToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                mainActivity,
+                permissionsToRequest.toTypedArray(),
+                REQUEST_PERMISSIONS
+            )
+            // If you don't have all the permissions, then you can not start the extraction
+            return false
+        }
+        // If you have all the permissions, then you can start the extraction
+        return true
     }
 
     fun execCMD(myCMD: Array<String>): String {
@@ -43,20 +83,18 @@ class Utils(applicationContext: Context) {
         }
     }
 
-    fun saveFile(folderName: String, fileName: String, fileContent: String): String {
+    fun saveFile(folderName: String, fileName: String, fileContent: String): Boolean {
         // ToDO: Validacionde carpetas, sistema de archivos montado
         return try {
             val myFolder = myApplicationContext.getDir(folderName, Context.MODE_PRIVATE)
             val myFile = File(myFolder, fileName)
+
             myFile.outputStream().use { it.write(fileContent.toByteArray()) }
 
-            if (myFile.exists()) {
-                "$fileName created"
-            } else {
-                "$fileName NOT created"
-            }
+            return myFile.exists()
         } catch (e: Exception) {
             e.toString()
+            return false
         }
     }
 }
