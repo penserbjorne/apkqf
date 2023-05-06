@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.SystemClock
 import android.provider.Telephony
 import android.util.Log
-import android.widget.Toast
 import java.io.IOException
 import java.util.*
 
@@ -98,6 +97,8 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
                     "Error creating SMS backup"
                 }
 
+                cursor.close()
+
                 Log.d(TAG, msgResult)
                 return msgResult
 
@@ -106,8 +107,6 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
                 Log.d(TAG, msgResult)
                 return msgResult
             }
-
-            cursor.close()
 
         } else {
             val msgResult = "No SMS found to backup"
@@ -129,7 +128,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         val saveFileResponse = myUtils.saveFile(storagePath, "getprop.txt", properties)
 
         val msgResult = if (saveFileResponse) {
-            "Device properties extracted and stores at getprop.txt"
+            "Device properties extracted and stored at getprop.txt"
         } else {
             "Error extracting device properties"
         }
@@ -138,7 +137,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         return msgResult
     }
 
-    fun getSettings() {
+    fun getSettings(): String {
         Log.d(TAG, "Settings system")
         Log.d(
             TAG, myUtils.saveFile(
@@ -162,6 +161,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
                 myUtils.execCMD(arrayOf("sh", "-c", "settings list global"))
             ).toString()
         )
+        return "Hola"
     }
 
     fun getProcesses() {
