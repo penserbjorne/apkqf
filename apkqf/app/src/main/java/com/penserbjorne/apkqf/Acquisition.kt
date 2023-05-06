@@ -51,13 +51,13 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
     }
 
     @SuppressLint("Range")
-    fun getBackup(contentResolver: ContentResolver) {
+    fun getBackup(contentResolver: ContentResolver): String {
         Log.d(TAG, "SMS Backup")
 
         // If you don't have all the permissions then you can not continue
         if (!myUtils.checkPermissions(myMainActivity)) {
             Log.d(TAG, NO_PERMISSIONS)
-            return
+            return "You need to allow all permissions"
         }
 
         val smsUri = Telephony.Sms.CONTENT_URI
@@ -90,35 +90,21 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
                 } while (cursor.moveToNext())
 
                 // We have the messages, try to save it
-                val msgResult = "SMS backup completed and stored at sms.txt"
                 val saveFileResponse = myUtils.saveFile(storagePath, "sms.txt", smsContent)
 
-                if (saveFileResponse) {
-                    Log.d(TAG, msgResult)
-
-                    Toast.makeText(
-                        myApplicationContext,
-                        msgResult,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                val msgResult = if (saveFileResponse) {
+                    "SMS backup completed and stored at sms.txt"
                 } else {
-                    val msgResult = "Error creating SMS backup"
-                    Log.d(TAG, msgResult)
-                    Toast.makeText(
-                        myApplicationContext,
-                        msgResult,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    "Error creating SMS backup"
                 }
+
+                Log.d(TAG, msgResult)
+                return msgResult
 
             } catch (e: IOException) {
                 val msgResult = "Error creating SMS backup"
                 Log.d(TAG, msgResult)
-                Toast.makeText(
-                    myApplicationContext,
-                    msgResult,
-                    Toast.LENGTH_SHORT
-                ).show()
+                return msgResult
             }
 
             cursor.close()
@@ -126,44 +112,30 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         } else {
             val msgResult = "No SMS found to backup"
             Log.d(TAG, msgResult)
-            Toast.makeText(
-                myApplicationContext,
-                msgResult,
-                Toast.LENGTH_SHORT
-            ).show()
+            return msgResult
         }
     }
 
-    fun getProp() {
+    fun getProp(): String {
         Log.d(TAG, "GetProp")
 
         // If you don't have all the permissions then you can not continue
         if (!myUtils.checkPermissions(myMainActivity)) {
             Log.d(TAG, NO_PERMISSIONS)
-            return
+            return "You need to allow all permissions"
         }
 
         val properties = myUtils.execCMD(arrayOf("sh", "-c", "getprop"))
-        val msgResult = "Device properties extracted and stores at getprop.txt"
         val saveFileResponse = myUtils.saveFile(storagePath, "getprop.txt", properties)
 
-        if (saveFileResponse) {
-            Log.d(TAG, msgResult)
-
-            Toast.makeText(
-                myApplicationContext,
-                msgResult,
-                Toast.LENGTH_SHORT
-            ).show()
+        val msgResult = if (saveFileResponse) {
+            "Device properties extracted and stores at getprop.txt"
         } else {
-            val msgResult = "Error extracting device properties"
-            Log.d(TAG, msgResult)
-            Toast.makeText(
-                myApplicationContext,
-                msgResult,
-                Toast.LENGTH_SHORT
-            ).show()
+            "Error extracting device properties"
         }
+
+        Log.d(TAG, msgResult)
+        return msgResult
     }
 
     fun getSettings() {

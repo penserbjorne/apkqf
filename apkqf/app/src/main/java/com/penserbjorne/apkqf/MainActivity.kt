@@ -67,8 +67,8 @@ class MainActivity : AppCompatActivity() {
         val myAcquisition = Acquisition(this, applicationContext)
         myAcquisition.test()
         myAcquisition.initialize()
-        myAcquisition.getBackup(contentResolver)
-        myAcquisition.getProp()
+        binding.textViewResults.append(myAcquisition.getBackup(contentResolver) + "\n")
+        binding.textViewResults.append(myAcquisition.getProp() + "\n")
         /*
         myAcquisition.getSettings()
         myAcquisition.getProcesses()
