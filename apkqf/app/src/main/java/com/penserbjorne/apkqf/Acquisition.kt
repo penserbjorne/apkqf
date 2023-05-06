@@ -57,7 +57,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         // If you don't have all the permissions then you can not continue
         if (!myUtils.checkPermissions(myMainActivity)) {
             Log.d(TAG, NO_PERMISSIONS)
-            return "You need to allow all permissions"
+            return ""
         }
 
         val smsUri = Telephony.Sms.CONTENT_URI
@@ -122,7 +122,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         // If you don't have all the permissions then you can not continue
         if (!myUtils.checkPermissions(myMainActivity)) {
             Log.d(TAG, NO_PERMISSIONS)
-            return "You need to allow all permissions"
+            return ""
         }
 
         val properties = myUtils.execCMD(arrayOf("sh", "-c", "getprop"))

@@ -53,17 +53,15 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (!allPermissionsGranted) {
-                Toast.makeText(
-                    this,
-                    "Permissions not granted",
-                    Toast.LENGTH_SHORT
-                ).show()
+                binding.textViewResults.text = "Permissions not granted\n"
+                binding.textViewResults.append("You need to allow all permissions")
             }
         }
     }
 
     private fun runExtractions() {
         // ToDo: Validar si esta seleccionado el checkbox, validar permisos, validar comandos
+        binding.textViewResults.text = ""
         val myAcquisition = Acquisition(this, applicationContext)
         myAcquisition.test()
         myAcquisition.initialize()
