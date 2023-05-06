@@ -1,7 +1,6 @@
 package com.penserbjorne.apkqf
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
@@ -28,8 +27,9 @@ class Utils(applicationContext: Context) {
     fun checkPermissions(mainActivity: MainActivity): Boolean {
         val permissions = arrayOf(
             // Permissions for SMS Backup
-            Manifest.permission.READ_SMS
+            Manifest.permission.READ_SMS,
             //Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.READ_PHONE_STATE
         )
 
         val permissionsToRequest = mutableListOf<String>()
@@ -40,7 +40,8 @@ class Utils(applicationContext: Context) {
             if (ContextCompat.checkSelfPermission(
                     myApplicationContext,
                     permission
-            ) != PackageManager.PERMISSION_GRANTED) {
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 permissionsToRequest.add(permission)
             }
         }

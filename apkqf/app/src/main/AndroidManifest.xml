@@ -7,7 +7,9 @@
     Note: APIs lower than API 23 (Android 6) have this permissions granted automatically
     -->
     <uses-permission android:name="android.permission.READ_SMS" />
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+
+    <!-- Required for getprop command -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"

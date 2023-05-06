@@ -55,7 +55,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         Log.d(TAG, "SMS Backup")
 
         // If you don't have all the permissions then you can not continue
-        if(!myUtils.checkPermissions(myMainActivity)){
+        if (!myUtils.checkPermissions(myMainActivity)) {
             Log.d(TAG, NO_PERMISSIONS)
             return
         }
@@ -93,7 +93,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
                 val msgResult = "SMS backup completed and stored at sms.txt"
                 val saveFileResponse = myUtils.saveFile(storagePath, "sms.txt", smsContent)
 
-                if(saveFileResponse) {
+                if (saveFileResponse) {
                     Log.d(TAG, msgResult)
 
                     Toast.makeText(
@@ -136,12 +136,34 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
 
     fun getProp() {
         Log.d(TAG, "GetProp")
-        Log.d(
-            TAG, myUtils.saveFile(
-                storagePath, "getprop.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "getprop"))
-            ).toString()
-        )
+
+        // If you don't have all the permissions then you can not continue
+        if (!myUtils.checkPermissions(myMainActivity)) {
+            Log.d(TAG, NO_PERMISSIONS)
+            return
+        }
+
+        val properties = myUtils.execCMD(arrayOf("sh", "-c", "getprop"))
+        val msgResult = "Device properties extracted and stores at getprop.txt"
+        val saveFileResponse = myUtils.saveFile(storagePath, "getprop.txt", properties)
+
+        if (saveFileResponse) {
+            Log.d(TAG, msgResult)
+
+            Toast.makeText(
+                myApplicationContext,
+                msgResult,
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            val msgResult = "Error extracting device properties"
+            Log.d(TAG, msgResult)
+            Toast.makeText(
+                myApplicationContext,
+                msgResult,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     fun getSettings() {

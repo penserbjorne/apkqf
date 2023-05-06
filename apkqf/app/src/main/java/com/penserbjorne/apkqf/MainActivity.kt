@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if(requestCode == REQUEST_PERMISSIONS) {
+        if (requestCode == REQUEST_PERMISSIONS) {
             var allPermissionsGranted = true
 
             for (grantResult in grantResults) {
@@ -68,8 +68,8 @@ class MainActivity : AppCompatActivity() {
         myAcquisition.test()
         myAcquisition.initialize()
         myAcquisition.getBackup(contentResolver)
-        /*
         myAcquisition.getProp()
+        /*
         myAcquisition.getSettings()
         myAcquisition.getProcesses()
         myAcquisition.getServices()
