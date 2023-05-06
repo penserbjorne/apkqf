@@ -115,6 +115,8 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         }
     }
 
+    // I decide to do this through ADB as the class BUILD only retrieve the build properties
+    // Maybe I can improve this in future with other classes
     fun getProp(): String {
         Log.d(TAG, "GetProp")
 
@@ -142,7 +144,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         Log.d(
             TAG, myUtils.saveFile(
                 storagePath, "settings_system.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "settings list system"))
+                myUtils.execCMD(arrayOf("sh", "-c", "cmd settings list system"))
             ).toString()
         )
 
@@ -150,7 +152,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         Log.d(
             TAG, myUtils.saveFile(
                 storagePath, "settings_secure.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "settings list secure"))
+                myUtils.execCMD(arrayOf("sh", "-c", "cmd settings list secure"))
             ).toString()
         )
 
@@ -158,7 +160,7 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         Log.d(
             TAG, myUtils.saveFile(
                 storagePath, "settings_global.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "settings list global"))
+                myUtils.execCMD(arrayOf("sh", "-c", "cmd settings list global"))
             ).toString()
         )
         return "Hola"
