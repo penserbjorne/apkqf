@@ -11,6 +11,17 @@
     <!-- Required for getprop command -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <!-- Required to get system, secure and global settings -->
+    <!--
+    Note: APIs lower than API 23 (Android 6) have this permissions granted automatically
+    -->
+    <uses-permission android:name="android.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"

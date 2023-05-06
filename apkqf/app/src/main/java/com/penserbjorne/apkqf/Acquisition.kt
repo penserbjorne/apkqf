@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.os.SystemClock
 import android.provider.Telephony
+import android.provider.Settings
 import android.util.Log
 import java.io.IOException
 import java.util.*
@@ -41,14 +42,17 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         myUtils.test()
     }
 
-    fun initialize() {
+    fun initialize(): Boolean {
         Log.d(TAG, "Acquisition values")
         Log.d(TAG, started.toString())
         Log.d(TAG, storagePath)
         Log.d(TAG, logsPath)
         Log.d(TAG, apksPath)
+
+        return myUtils.checkPermissions(myMainActivity)
     }
 
+    // ToDo: Need to fix the content format
     @SuppressLint("Range")
     fun getBackup(contentResolver: ContentResolver): String {
         Log.d(TAG, "SMS Backup")
@@ -139,31 +143,187 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         return msgResult
     }
 
-    fun getSettings(): String {
+    // Retrieve the list of system settings
+    // ToDo: Need to fix the content format
+    @SuppressLint("Range")
+    fun getSystemSettings(): String {
         Log.d(TAG, "Settings system")
-        Log.d(
-            TAG, myUtils.saveFile(
-                storagePath, "settings_system.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "cmd settings list system"))
-            ).toString()
+
+        // If you don't have all the permissions then you can not continue
+        if (!myUtils.checkPermissions(myMainActivity)) {
+            Log.d(TAG, NO_PERMISSIONS)
+            return ""
+        }
+
+        val systemSettings = sortedMapOf<String, String>()
+        val cursor = myApplicationContext.contentResolver.query(
+            Settings.System.CONTENT_URI,
+            null,
+            null,
+            null,
+            Settings.System.NAME + " ASC"
         )
 
+        if (cursor != null && cursor.moveToFirst()) {
+            try {
+                do {
+                    val key = cursor.getString(cursor.getColumnIndex(Settings.System.NAME))
+                    val value = cursor.getString(cursor.getColumnIndex(Settings.System.VALUE))
+
+                    if (value == null) {
+                        systemSettings[key] = "null"
+                    } else {
+                        systemSettings[key] = value
+                    }
+
+                } while (cursor.moveToNext())
+
+                cursor.close()
+
+                val saveFileResponse = myUtils.saveFile(
+                    storagePath, "settings_system.txt", systemSettings.toString()
+                )
+
+                val msgResult = if (saveFileResponse) {
+                    "System settings extracted and stored at settings_system.txt"
+                } else {
+                    "Error extracting system settings"
+                }
+
+                Log.d(TAG, msgResult)
+                return msgResult
+            } catch (e: IOException) {
+                val msgResult = "Error extracting system settings"
+                Log.d(TAG, msgResult)
+                return msgResult
+            }
+        } else {
+            val msgResult = "Error extracting system settings. No system settings found."
+            Log.d(TAG, msgResult)
+            return msgResult
+        }
+    }
+
+    // Retrieve the list of secure settings
+    // ToDo: Need to fix the content format
+    @SuppressLint("Range")
+    fun getSecureSettings(): String {
         Log.d(TAG, "Settings secure")
-        Log.d(
-            TAG, myUtils.saveFile(
-                storagePath, "settings_secure.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "cmd settings list secure"))
-            ).toString()
+
+        // If you don't have all the permissions then you can not continue
+        if (!myUtils.checkPermissions(myMainActivity)) {
+            Log.d(TAG, NO_PERMISSIONS)
+            return ""
+        }
+
+        val secureSettings = sortedMapOf<String, String>()
+        val cursor = myApplicationContext.contentResolver.query(
+            Settings.Secure.CONTENT_URI,
+            null,
+            null,
+            null,
+            Settings.Secure.NAME + " ASC"
         )
 
+        if (cursor != null && cursor.moveToFirst()) {
+            try {
+                do {
+                    val key = cursor.getString(cursor.getColumnIndex(Settings.Secure.NAME))
+                    val value = cursor.getString(cursor.getColumnIndex(Settings.Secure.VALUE))
+
+                    if (value == null) {
+                        secureSettings[key] = "null"
+                    } else {
+                        secureSettings[key] = value
+                    }
+
+                } while (cursor.moveToNext())
+
+                cursor.close()
+
+                val saveFileResponse = myUtils.saveFile(
+                    storagePath, "settings_secure.txt", secureSettings.toString()
+                )
+
+                val msgResult = if (saveFileResponse) {
+                    "Secure settings extracted and stored at settings_secure.txt"
+                } else {
+                    "Error extracting secure settings"
+                }
+
+                Log.d(TAG, msgResult)
+                return msgResult
+            } catch (e: IOException) {
+                val msgResult = "Error extracting secure settings"
+                Log.d(TAG, msgResult)
+                return msgResult
+            }
+        } else {
+            val msgResult = "Error extracting secure settings. No secure settings found."
+            Log.d(TAG, msgResult)
+            return msgResult
+        }
+    }
+
+    // Retrieve the list of global settings
+    // ToDo: Need to fix the content format
+    @SuppressLint("Range")
+    fun getGlobalSettings(): String {
         Log.d(TAG, "Settings global")
-        Log.d(
-            TAG, myUtils.saveFile(
-                storagePath, "settings_global.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "cmd settings list global"))
-            ).toString()
+
+        // If you don't have all the permissions then you can not continue
+        if (!myUtils.checkPermissions(myMainActivity)) {
+            Log.d(TAG, NO_PERMISSIONS)
+            return ""
+        }
+
+        val globalSettings = sortedMapOf<String, String>()
+        val cursor = myApplicationContext.contentResolver.query(
+            Settings.Global.CONTENT_URI,
+            null,
+            null,
+            null,
+            Settings.Global.NAME + " ASC"
         )
-        return "Hola"
+
+        if (cursor != null && cursor.moveToFirst()) {
+            try {
+                do {
+                    val key = cursor.getString(cursor.getColumnIndex(Settings.Global.NAME))
+                    val value = cursor.getString(cursor.getColumnIndex(Settings.Global.VALUE))
+
+                    if (value == null) {
+                        globalSettings[key] = "null"
+                    } else {
+                        globalSettings[key] = value
+                    }
+
+                } while (cursor.moveToNext())
+
+                cursor.close()
+
+                val saveFileResponse = myUtils.saveFile(
+                    storagePath, "settings_global.txt", globalSettings.toString()
+                )
+
+                val msgResult = if (saveFileResponse) {
+                    "Global settings extracted and stored at settings_global.txt"
+                } else {
+                    "Error extracting global settings"
+                }
+
+                Log.d(TAG, msgResult)
+                return msgResult
+            } catch (e: IOException) {
+                val msgResult = "Error extracting global settings"
+                Log.d(TAG, msgResult)
+                return msgResult
+            }
+        } else {
+            val msgResult = "Error extracting global settings. No secure settings found."
+            Log.d(TAG, msgResult)
+            return msgResult
+        }
     }
 
     fun getProcesses() {

@@ -3,7 +3,6 @@ package com.penserbjorne.apkqf
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
 import com.penserbjorne.apkqf.databinding.ActivityMainBinding
 
 private const val TAG = "apkqf"
@@ -64,18 +63,21 @@ class MainActivity : AppCompatActivity() {
         binding.textViewResults.text = ""
         val myAcquisition = Acquisition(this, applicationContext)
         myAcquisition.test()
-        myAcquisition.initialize()
-        binding.textViewResults.append(myAcquisition.getBackup(contentResolver) + "\n")
-        binding.textViewResults.append(myAcquisition.getProp() + "\n")
-        /*
-        myAcquisition.getSettings()
-        myAcquisition.getProcesses()
-        myAcquisition.getServices()
-        myAcquisition.getLogcat()
-        myAcquisition.getLogs()
-        myAcquisition.getDumpSys()
-        myAcquisition.getPackages()
-         */
+        if (myAcquisition.initialize()){
+            binding.textViewResults.append(myAcquisition.getBackup(contentResolver) + "\n")
+            binding.textViewResults.append(myAcquisition.getProp() + "\n")
+            binding.textViewResults.append(myAcquisition.getSystemSettings() + "\n")
+            binding.textViewResults.append(myAcquisition.getSecureSettings() + "\n")
+            binding.textViewResults.append(myAcquisition.getGlobalSettings() + "\n")
+            /*
+            myAcquisition.getProcesses()
+            myAcquisition.getServices()
+            myAcquisition.getLogcat()
+            myAcquisition.getLogs()
+            myAcquisition.getDumpSys()
+            myAcquisition.getPackages()
+             */
+        }
     }
 
 }
