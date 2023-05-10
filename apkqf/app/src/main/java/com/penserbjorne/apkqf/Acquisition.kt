@@ -434,14 +434,27 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         return msgResult
     }
 
-    fun getLogcat() {
+    // It only gives the information for current application
+    fun getLogcat(): String {
         Log.d(TAG, "Logcat")
-        Log.d(
-            TAG, myUtils.saveFile(
-                storagePath, "logcat.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "logcat -d -b all"))
-            ).toString()
-        )
+
+        // If you don't have all the permissions then you can not continue
+        if (!myUtils.checkPermissions(myMainActivity)) {
+            Log.d(TAG, NO_PERMISSIONS)
+            return ""
+        }
+
+        val properties = myUtils.execCMD(arrayOf("sh", "-c", "logcat -d -b all"))
+        val saveFileResponse = myUtils.saveFile(storagePath, "logcat.txt", properties)
+
+        val msgResult = if (saveFileResponse) {
+            "Device logcat extracted and stored at logcat.txt"
+        } else {
+            "Error extracting device logcat"
+        }
+
+        Log.d(TAG, msgResult)
+        return msgResult
     }
 
     fun getLogs() {

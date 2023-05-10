@@ -24,6 +24,7 @@ class Utils(applicationContext: Context) {
         Log.d(acquisitionTAG, testMSG)
     }
 
+    // ToDo: Gestionar los permisos dependiendo de la version de la API de Android
     fun checkPermissions(mainActivity: MainActivity): Boolean {
         val permissions = arrayOf(
             // Permissions for SMS Backup
@@ -31,8 +32,9 @@ class Utils(applicationContext: Context) {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
             //Manifest.permission.WRITE_SETTINGS, // This is not allowed for users
-            Manifest.permission.GET_TASKS,
+            Manifest.permission.GET_TASKS
             //Manifest.permission.DUMP,
+            //Manifest.permission.READ_LOGS,
         )
 
         val permissionsToRequest = mutableListOf<String>()
