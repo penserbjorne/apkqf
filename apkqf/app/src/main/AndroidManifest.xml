@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- Required for SMS -->
     <!--
-    Note: APIs lower than API 23 (Android 6) have this permissions granted automatically
+    Note: Since API 23 (Android 6) it is necessary to request also on runtime
     -->
     <uses-permission android:name="android.permission.READ_SMS" />
 
@@ -13,14 +14,24 @@
 
     <!-- Required to get system, secure and global settings -->
     <!--
-    Note: APIs lower than API 23 (Android 6) have this permissions granted automatically
+    Note: Since API 23 (Android 6) it is necessary to request also on runtime
     -->
     <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
+    <!-- Required to get processes -->
+    <!--
+    Note: Since API 23 (Android 6) it is necessary to request also on runtime
+    Note: Since API 29 (Android 10), GET_TASK is deprecated. RoleManager system service and
+    ROLE_ASSISTANT could replace it (?)
+    -->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
+    <!-- Required to get services -->
+    <uses-permission android:name="android.permission.DUMP"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"

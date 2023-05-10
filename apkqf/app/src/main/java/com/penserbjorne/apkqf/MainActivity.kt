@@ -3,6 +3,7 @@ package com.penserbjorne.apkqf
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.penserbjorne.apkqf.databinding.ActivityMainBinding
 
 private const val TAG = "apkqf"
@@ -69,14 +70,16 @@ class MainActivity : AppCompatActivity() {
             binding.textViewResults.append(myAcquisition.getSystemSettings() + "\n")
             binding.textViewResults.append(myAcquisition.getSecureSettings() + "\n")
             binding.textViewResults.append(myAcquisition.getGlobalSettings() + "\n")
+            binding.textViewResults.append(myAcquisition.getProcesses() + "\n")
+            binding.textViewResults.append(myAcquisition.getServices() + "\n")
             /*
-            myAcquisition.getProcesses()
-            myAcquisition.getServices()
             myAcquisition.getLogcat()
             myAcquisition.getLogs()
             myAcquisition.getDumpSys()
             myAcquisition.getPackages()
              */
+        } else {
+            Log.d(TAG, "You need to allow all permissions")
         }
     }
 

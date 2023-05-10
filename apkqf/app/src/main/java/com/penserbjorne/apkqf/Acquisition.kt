@@ -1,13 +1,19 @@
 package com.penserbjorne.apkqf
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.content.ContentResolver
 import android.content.Context
+import android.os.Build
+import android.os.Debug
 import android.os.SystemClock
 import android.provider.Telephony
 import android.provider.Settings
+import android.support.v4.content.ContextCompat.getSystemService
 import android.util.Log
+import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStreamReader
 import java.util.*
 
 private const val TAG = "apkqf acquisition"
@@ -326,24 +332,106 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         }
     }
 
-    fun getProcesses() {
+    fun getProcesses(): String {
         Log.d(TAG, "Processes")
+
+        // If you don't have all the permissions then you can not continue
+        if (!myUtils.checkPermissions(myMainActivity)) {
+            Log.d(TAG, NO_PERMISSIONS)
+            return ""
+        }
+
+        val processBuilder = ProcessBuilder("ps")
+        processBuilder.redirectErrorStream(true)
+
+        val process = processBuilder.start()
+        val reader = BufferedReader(InputStreamReader(process.inputStream))
+        val output = StringBuilder()
+
+        var line: String?
+        while (reader.readLine().also { line = it } != null) {
+            output.append(line + "\n")
+        }
+
+        //val exitCode = process.waitFor()
+        //f (exitCode == 0) {
+            // Process completed successfully
+            val processList = output.toString()
+            Log.d("Process List", processList)
+        //} else {
+            // Error occurred
+          //  Log.e("Process List", "Error executing command")
+        //}
+
+
+        return "Debug --> Processes"
+    }
+    fun getProcesses2(): String {
+        Log.d(TAG, "Processes")
+
+        /*
         Log.d(
+
             TAG, myUtils.saveFile(
                 storagePath, "ps.txt",
                 myUtils.execCMD(arrayOf("sh", "-c", "ps"))
             ).toString()
         )
+         */
+
+        val activityManager = myApplicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val runningProcesses = activityManager.runningAppProcesses
+        var processes = "USER      PID   PPID  VSIZE  RSS     WCHAN    PC  NAME\n"
+
+        for (process in runningProcesses) {
+            //label name
+            // user
+            // pid
+            //ppid
+            //vsz
+            //rss
+            //wchan
+            //addr
+            //s
+            //name
+            val pid = process.pid
+            val ppid = process.pid
+            val uid = process.uid
+            val memoryInfo = activityManager.getProcessMemoryInfo(intArrayOf(process.pid))[0]
+            val memoryUsage = memoryInfo.totalPrivateDirty * 1024L
+
+            // Get CPU usage of the process
+            //val cpuUsage = Debug.getProcessCpuTime(intArrayOf(pid))[0] / 1000000L
+
+            processes += String.format("%-10d%-6d%-6d%-7d%-7d   00000000  00000000  %s\n", uid, pid, ppid, memoryUsage, memoryUsage, process.processName)
+
+        }
+
+        Log.d(TAG, processes)
+        return "Hola"
     }
 
-    fun getServices() {
+    // ToDo: Some services are empty, not in adb
+    fun getServices(): String {
         Log.d(TAG, "Services")
-        Log.d(
-            TAG, myUtils.saveFile(
-                storagePath, "services.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "service list"))
-            ).toString()
-        )
+
+        // If you don't have all the permissions then you can not continue
+        if (!myUtils.checkPermissions(myMainActivity)) {
+            Log.d(TAG, NO_PERMISSIONS)
+            return ""
+        }
+
+        val properties = myUtils.execCMD(arrayOf("sh", "-c", "service list"))
+        val saveFileResponse = myUtils.saveFile(storagePath, "services.txt", properties)
+
+        val msgResult = if (saveFileResponse) {
+            "Device services extracted and stored at services.txt"
+        } else {
+            "Error extracting device services"
+        }
+
+        Log.d(TAG, msgResult)
+        return msgResult
     }
 
     fun getLogcat() {

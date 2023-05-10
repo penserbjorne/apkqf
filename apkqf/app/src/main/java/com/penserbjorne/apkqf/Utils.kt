@@ -28,11 +28,11 @@ class Utils(applicationContext: Context) {
         val permissions = arrayOf(
             // Permissions for SMS Backup
             Manifest.permission.READ_SMS,
-            //Manifest.permission.WRITE_EXTERNAL_STORAGE
-            Manifest.permission.READ_PHONE_STATE
-            //Manifest.permission.READ_SETTINGS, // Does this exist? D;
-            //Manifest.permission.READ_SECURE_SETTINGS, // Does this exist? D;
-            //Manifest.permission.WRITE_SETTINGS // This is not allowed for users
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            //Manifest.permission.WRITE_SETTINGS, // This is not allowed for users
+            Manifest.permission.GET_TASKS,
+            //Manifest.permission.DUMP,
         )
 
         val permissionsToRequest = mutableListOf<String>()
