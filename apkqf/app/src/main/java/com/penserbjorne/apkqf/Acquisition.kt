@@ -12,6 +12,7 @@ import android.provider.Settings
 import android.support.v4.content.ContextCompat.getSystemService
 import android.util.Log
 import java.io.BufferedReader
+import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.*
@@ -421,8 +422,8 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
             return ""
         }
 
-        val properties = myUtils.execCMD(arrayOf("sh", "-c", "service list"))
-        val saveFileResponse = myUtils.saveFile(storagePath, "services.txt", properties)
+        val services = myUtils.execCMD(arrayOf("sh", "-c", "service list"))
+        val saveFileResponse = myUtils.saveFile(storagePath, "services.txt", services)
 
         val msgResult = if (saveFileResponse) {
             "Device services extracted and stored at services.txt"
@@ -444,8 +445,8 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
             return ""
         }
 
-        val properties = myUtils.execCMD(arrayOf("sh", "-c", "logcat -d -b all"))
-        val saveFileResponse = myUtils.saveFile(storagePath, "logcat.txt", properties)
+        val logcat = myUtils.execCMD(arrayOf("sh", "-c", "logcat -d -b all"))
+        val saveFileResponse = myUtils.saveFile(storagePath, "logcat.txt", logcat)
 
         val msgResult = if (saveFileResponse) {
             "Device logcat extracted and stored at logcat.txt"
@@ -457,19 +458,43 @@ class Acquisition(mainActivity: MainActivity, applicationContext: Context) {
         return msgResult
     }
 
-    fun getLogs() {
+    // ToDo: All
+    fun getLogs(): String {
         Log.d(TAG, "Logs")
-        Log.d(TAG, myUtils.saveFile(storagePath, "logs.txt", "ToDo").toString())
+
+        // If you don't have all the permissions then you can not continue
+        if (!myUtils.checkPermissions(myMainActivity)) {
+            Log.d(TAG, NO_PERMISSIONS)
+            return ""
+        }
+
+        val msgResult = "Not yet implemented"
+
+        Log.d(TAG, msgResult)
+        return msgResult
     }
 
-    fun getDumpSys() {
+    // ToDo: Need more permissions :(
+    fun getDumpSys(): String {
         Log.d(TAG, "DumpSys")
-        Log.d(
-            TAG, myUtils.saveFile(
-                storagePath, "dumpsys.txt",
-                myUtils.execCMD(arrayOf("sh", "-c", "dumpsys"))
-            ).toString()
-        )
+
+        // If you don't have all the permissions then you can not continue
+        if (!myUtils.checkPermissions(myMainActivity)) {
+            Log.d(TAG, NO_PERMISSIONS)
+            return ""
+        }
+
+        val dumpsys = myUtils.execCMD(arrayOf("sh", "-c", "dumpsys"))
+        val saveFileResponse = myUtils.saveFile(storagePath, "dumpsys.txt", dumpsys)
+
+        val msgResult = if (saveFileResponse) {
+            "Device DumpSys extracted and stored at dumpsys.txt"
+        } else {
+            "Error extracting device dumpsys"
+        }
+
+        Log.d(TAG, msgResult)
+        return msgResult
     }
 
     fun getPackages() {

@@ -73,9 +73,10 @@ class MainActivity : AppCompatActivity() {
             binding.textViewResults.append(myAcquisition.getProcesses() + "\n")
             binding.textViewResults.append(myAcquisition.getServices() + "\n")
             binding.textViewResults.append(myAcquisition.getLogcat() + "\n")
+            binding.textViewResults.append(myAcquisition.getLogs() + "\n")
+            binding.textViewResults.append(myAcquisition.getDumpSys() + "\n")
             /*
-            myAcquisition.getLogs()
-            myAcquisition.getDumpSys()
+
             myAcquisition.getPackages()
              */
         } else {
